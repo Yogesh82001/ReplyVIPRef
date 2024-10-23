@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIP Reference Reply Section</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f4f7fa;
+    }
+
+    /* Navbar styles */
+    .navbar-dark {
+      background-color: #343a40;
+    }
+
+    /* Form Styles */
+    .form-container {
+      max-width: 90%;
+      margin: 40px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
+    }
+
+    .form-container:hover {
+      transform: scale(1.02);
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #333;
+      text-align: center;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: inline-block;
+      color: #555;
+    }
+
+    input, select, textarea {
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+      padding: 10px;
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 10px;
+      background-color: #256fc4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .btn-submit:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+    }
+
+    /* Table styles */
+    .table-container {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .table th, .table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .table th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .print-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    /* Footer styles */
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .footer a {
+      color: #6c757d;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: #ffffff;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 20px;
+      }
+
+      .btn-submit {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">VIP Portal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <!-- Add other navbar items if needed -->
+        </ul>
+        <span class="navbar-text live-clock me-3" id="liveClock"></span>
+        <button class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container my-5">
+    <!-- Reply Section -->
+    <div class="form-container">
+      <h2>Reply to VIP Reference</h2>
+
+      <!-- Search Form for VIP Reference -->
+      <form id="searchForm">
+        <div class="form-group mb-3">
+          <label for="vipReferenceSearch">Search by VIP Reference ID:</label>
+          <input type="text" id="vipReferenceSearch" name="vipReferenceSearch" class="form-control" placeholder="Enter VIP Reference" required>
+        </div>
+        <button type="submit" class="btn btn-submit">Search</button>
+      </form>
+
+      <!-- Result Table -->
+      <div class="table-container">
+        <div class="table-responsive" id="resultTable" style="display: none;">
+          <h6>Click on ID for view</h6>
+          <h6>Click on Letter Date for edit</h6>
+          <h6>Click on Pertain to for Assign</h6>
+          <h6>Click on Reply By for edit</h6>
+          <h6 class="mt-4 text-center">Search Results:</h6>
+          <table class="table table-bordered mt-2">
+            <thead>
+              <tr>
+                <th>Sno</th>
+                <th>ID</th>
+                <th>Letter Date</th>
+                <th>From</th>
+                <th>Subject</th>
+                <th>Addressed To</th>
+                <th>Pertain To</th>
+                <th>Last Reply By</th>
+              </tr>
+            </thead>
+            <tbody id="resultBody">
+              <!-- Results will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+        <div class="btn-group justify-content-center mt-3">
+          <button type="button" class="btn btn-outline-primary" onclick="window.print()">
+            <i class="fas fa-print"></i> Print
+          </button>
+          <button type="button" class="btn btn-outline-primary">Download</button>
+          <button type="button" class="btn btn-outline-primary">PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer mt-auto">
+    &copy; 2024 All Rights Reserved. Version 1.0.6 / 05-09-2024 <br>
+    This portal is designed, developed, and maintained by <a href="#">M/s Calibre Websol Pvt. Ltd.</a>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JavaScript for Live Clock -->
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      };
+      const formattedDate = now.toLocaleDateString('en-GB', options);
+      document.getElementById('liveClock').textContent = formattedDate;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+
+  <!-- JavaScript for handling search and displaying results -->
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const vipReference = document.getElementById('vipReferenceSearch').value;
+      const fetchedData = [
+        {
+          sno: 1,
+          id: "ID001",
+          letterDate: "2024-01-15",
+          from: "Department A",
+          subject: "Subject A",
+          addressedTo: "Recipient A",
+          pertainTo: "Assign A",
+          lastReplyBy: "User A"
+        },
+        {
+          sno: 2,
+          id: "ID002",
+          letterDate: "2024-01-16",
+          from: "Department B",
+          subject: "Subject B",
+          addressedTo: "Recipient B",
+          pertainTo: "Assign B",
+          lastReplyBy: "User B"
+        }
+      ];
+
+      const resultBody = document.getElementById('resultBody');
+      resultBody.innerHTML = "";
+      fetchedData.forEach(data => {
+        resultBody.innerHTML += `
+          <tr>
+            <td>${data.sno}</td>
+            <td><a href="#">${data.id}</a></td>
+            <td><a href="#">${data.letterDate}</a></td>
+            <td>${data.from}</td>
+            <td>${data.subject}</td>
+            <td>${data.addressedTo}</td>
+            <td><a href="#">${data.pertainTo}</a></td>
+            <td><a href="#">${data.lastReplyBy}</a></td>
+          </tr>
+        `;
+      });
+
+      document.getElementById('resultTable').style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
